@@ -33,7 +33,7 @@ func (l *Level) Load(input io.ReadWriter) error {
 
 			kind, exists := l.SymbolMap[char]
 			if !exists {
-				return errors.New(fmt.Sprintf("level: %s not found in SymbolMap", char))
+				return errors.New(fmt.Sprintf("level: '%s' not found in SymbolMap", char))
 			}
 
 			l.Tiles[row][i] = Tile{Kind: kind}
