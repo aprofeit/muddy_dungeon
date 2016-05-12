@@ -16,14 +16,23 @@ func TestCreatingAnEntity(t *testing.T) {
 }
 
 func TestAddingEntityToLevel(t *testing.T) {
-	level := newTestLevel()
+	level1 := newTestLevel()
 	entity := &Entity{}
 
-	entity.SetLevel(level)
+	entity.SetLevel(level1)
 
-	assert.Equal(t, 1, len(level.entities))
-	assert.Equal(t, entity, level.entities[0])
-	assert.Equal(t, entity.level, level)
+	assert.Equal(t, 1, len(level1.entities))
+	assert.Equal(t, entity, level1.entities[0])
+	assert.Equal(t, level1, entity.level)
+
+	level2 := newTestLevel()
+
+	entity.SetLevel(level2)
+
+	assert.Equal(t, 0, len(level1.entities))
+	assert.Equal(t, 1, len(level2.entities))
+	assert.Equal(t, entity, level2.entities[0])
+	assert.Equal(t, level2, entity.level)
 }
 
 func newTestLevel() *Level {
