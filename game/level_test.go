@@ -8,12 +8,7 @@ import (
 
 func TestLoadingFromReader(t *testing.T) {
 	buffer := bytes.NewBuffer([]byte("* \n *"))
-	level := &Level{
-		SymbolMap: map[string]string{
-			"*": "wall",
-			" ": "empty",
-		},
-	}
+	level := NewLevel()
 
 	err := level.Load(buffer)
 
@@ -29,6 +24,7 @@ func TestLoadingWithMissingSymbol(t *testing.T) {
 	level := &Level{}
 
 	err := level.Load(buffer)
+
 	assert.NotNil(t, err)
 	assert.Equal(t, "level: ' ' not found in SymbolMap", err.Error())
 }

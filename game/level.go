@@ -8,12 +8,22 @@ import (
 )
 
 type Level struct {
-	Tiles     [][]Tile
+	tiles     [][]Tile
 	SymbolMap map[string]string
+	entities  []*Entity
+}
+
+func NewLevel() *Level {
+	return &Level{
+		SymbolMap: map[string]string{
+			"*": "wall",
+			" ": "empty",
+		},
+	}
 }
 
 func (l *Level) GetTile(x, y int) Tile {
-	return l.Tiles[y][x]
+	return l.tiles[y][x]
 }
 
 func (l *Level) Load(input io.ReadWriter) error {
@@ -22,7 +32,7 @@ func (l *Level) Load(input io.ReadWriter) error {
 	row := 0
 	for scanner.Scan() {
 		line := scanner.Text()
-		l.Tiles = append(l.Tiles, make([]Tile, len(line)))
+		l.tiles = append(l.tiles, make([]Tile, len(line)))
 
 		for col := 0; col < len(line); col++ {
 			char := string(line[col])
@@ -32,7 +42,7 @@ func (l *Level) Load(input io.ReadWriter) error {
 				return errors.New(fmt.Sprintf("level: '%s' not found in SymbolMap", char))
 			}
 
-			l.Tiles[row][col] = Tile{Kind: kind}
+			l.tiles[row][col] = Tile{Kind: kind}
 		}
 
 		row++
@@ -43,4 +53,16 @@ func (l *Level) Load(input io.ReadWriter) error {
 	}
 
 	return nil
+}
+
+func (l *Level) addEntity(e *Entity) {
+	l.entities = append(l.entities, e)
+}
+
+func (l *Level) removeEntity(e *Entity) {
+	for i := 0; i < len(l.entities); i++ {
+		if l.entities[i] == e {
+			l.entities = append(l.entities[:i], l.entities[i+1:]...)
+		}
+	}
 }
