@@ -28,15 +28,15 @@ func (l *Level) Load(input io.ReadWriter) error {
 		line := scanner.Text()
 		l.Tiles = append(l.Tiles, make([]Tile, len(line)))
 
-		for i := 0; i < len(line); i++ {
-			char := string(line[i])
+		for col := 0; col < len(line); col++ {
+			char := string(line[col])
 
 			kind, exists := l.SymbolMap[char]
 			if !exists {
 				return errors.New(fmt.Sprintf("level: '%s' not found in SymbolMap", char))
 			}
 
-			l.Tiles[row][i] = Tile{Kind: kind}
+			l.Tiles[row][col] = Tile{Kind: kind}
 		}
 
 		row++
