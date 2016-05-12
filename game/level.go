@@ -1,4 +1,4 @@
-package level
+package game
 
 import (
 	"bufio"
@@ -6,10 +6,6 @@ import (
 	"fmt"
 	"io"
 )
-
-type Tile struct {
-	Kind string
-}
 
 type Level struct {
 	Tiles     [][]Tile
